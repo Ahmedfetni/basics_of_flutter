@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'answer.dart';
 import 'question.dart';
 
 void main() {
@@ -8,7 +9,6 @@ void main() {
 class App extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return AppState();
   }
   //App({Key? key}) : super(key: key);
@@ -18,10 +18,11 @@ class App extends StatefulWidget {
 class AppState extends State<App> {
   //final appBarBackgroudClor = Color(0x000000);
   var index = 0;
-  var questions = ["what is ur favorite color?", "what is ur favorite animal?"];
-  var button1 = ["Blue", "fish"];
-  var button2 = ["Red", "cat"];
-  var button3 = ["Green", "dog"];
+  //var questions = ["what is ur favorite color?", "what is ur favorite animal?"];
+  //var button1 = ["Blue", "fish"];
+  //var button2 = ["Red", "cat"];
+  //var button3 = ["Green", "dog"];
+  
   void answerQuestion() {
     setState(() {
       if (index == 0) {
@@ -34,32 +35,38 @@ class AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>>  questions = [
+    {
+      "question": "what is ur favorite color?",
+      "answers": ["Blue", "Red", "Black", "Green"],
+    },
+    {
+      "question": "what is ur favorite animal?",
+      "answers": ["Snake", "Fish", "Cat", "Dog"],
+    },
+  ];
     return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            // backgroundColor: appBarBackgroudClor,
-            title: const Center(
-                child: Text(
-              "the first app i build ndnd ",
-            )),
+        home: Scaffold(
+      appBar: AppBar(
+        // backgroundColor: appBarBackgroudClor,
+        title: const Center(
+            child: Text(
+          "the first app i build ndnd ",
+        )),
+      ),
+      body: Column(
+        children: <Widget>[
+          question(
+            questions[index]['question'],
           ),
-          body: Column(
-            children: <Widget>[
-              Question(questions.elementAt(index)),
-              RaisedButton(
-                child: Text(button1.elementAt(index)),
-                onPressed: answerQuestion,
-              ),
-              RaisedButton(
-                child: Text(button2.elementAt(index)),
-                onPressed: answerQuestion,
-              ),
-              RaisedButton(
-                child: Text(button3.elementAt(index)),
-                onPressed: answerQuestion,
-              ),
-            ],
-          )),
-    );
+          ...(questions[index]["answers"] as List<String>)
+          .map(
+            (answer){
+            return   Answer(answerQuestion,answer);
+          }
+          ).toList(),
+        ],
+      ),
+    ));
   }
 }
