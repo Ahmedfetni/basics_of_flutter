@@ -1,6 +1,8 @@
+import 'package:basics_of_flutter/result.dart';
 import 'package:flutter/material.dart';
 import 'answer.dart';
 import 'question.dart';
+
 
 void main() {
   runApp(App());
@@ -22,51 +24,44 @@ class AppState extends State<App> {
   //var button1 = ["Blue", "fish"];
   //var button2 = ["Red", "cat"];
   //var button3 = ["Green", "dog"];
-  
+
   void answerQuestion() {
     setState(() {
-      if (index == 0) {
-        index = 1;
-      } else {
-        index = 0;
-      }
+      index++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>>  questions = [
-    {
-      "question": "what is ur favorite color?",
-      "answers": ["Blue", "Red", "Black", "Green"],
-    },
-    {
-      "question": "what is ur favorite animal?",
-      "answers": ["Snake", "Fish", "Cat", "Dog"],
-    },
-  ];
+    List<Map<String, dynamic>> questions = [
+      {
+        "question": "what is ur favorite color?",
+        "answers": ["Blue", "Red", "Black", "Green"],
+      },
+      {
+        "question": "what is ur favorite animal?",
+        "answers": ["Snake", "Fish", "Cat", "Dog"],
+      },
+    ];
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
         // backgroundColor: appBarBackgroudClor,
         title: const Center(
             child: Text(
-          "the first app i build ndnd ",
+          "A quiz Game",
         )),
       ),
-      body: Column(
+      body:index < questions.length ? Column(
         children: <Widget>[
           question(
             questions[index]['question'],
           ),
-          ...(questions[index]["answers"] as List<String>)
-          .map(
-            (answer){
-            return   Answer(answerQuestion,answer);
-          }
-          ).toList(),
+          ...(questions[index]["answers"] as List<String>).map((answer) {
+            return Answer(answerQuestion, answer);
+          }).toList(),
         ],
-      ),
+      ):Result(),
     ));
   }
 }
